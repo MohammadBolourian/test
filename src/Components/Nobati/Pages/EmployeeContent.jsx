@@ -1,7 +1,7 @@
 import * as React from 'react';
 import styles from "./Content.module.scss";
 
-export const EmployeeContent = () => {
+export const EmployeeContent = ({job}) => {
     return (
         <div>
             <div className={'p-3 bg-white'}>
@@ -28,7 +28,7 @@ export const EmployeeContent = () => {
                         </div>
                         <div className={'col mt-4'}>
                             <div>
-                                <h5 className={'d-inline'}>جویی تریبیانی</h5>
+                                <h5 className={'d-inline'}>{job.name}</h5>
                             </div>
                             <p className={'m-1'}>نام محل کار : گالری اندرومکس</p>
                         </div>

@@ -1,46 +1,33 @@
 import * as React from 'react';
 import styles from "../Pages/Content.module.scss";
 import {Link} from "react-router-dom";
+import {useContext} from "react";
+import {AuthContext} from "../../../context/authContext";
+import {NotFound, Spinner} from "../../index";
+import ShowJob from "../User/Job/ShowJob";
 
 export const JobUser = () => {
+    const {loading, jobs} = useContext(AuthContext);
     return (
        <>
-           <div className={'row'}>
-               <div className={'m-2 p-2 bg-white rounded-2 row col-12'}>
-                   <div className={'col'} style={{maxWidth:'fit-content'}}>
-                       <img className={styles.img} src={require('./../../../assets/images.jpg')} alt={'profile'}/>
-                   </div>
-                   <div className={'col mt-2'}>
-                       <div>
-                           <h5 className={'d-inline'}>جویی تریبیانی</h5>
-                           <span className={styles.see}><i className="fa fa-eye mx-1" aria-hidden="true"/> 723</span>
-                       </div>
-                       <p className={'m-1'}> توضیحات شخص  مثل مشاوره داخلی زنان،اطفال،پوست، اعصاب و روان،مشاوره قبل ازدواج</p>
-                       <div>
-                           <i className={`fa fa-thumbs-o-up ${styles.like}`} aria-hidden="true"/>
-                           <span className={styles.like}>90%</span>
-                           <span className={'me-1'}> (297 نظر)</span>
-                       </div>
-                   </div>
-                   <div className={'mt-2'}>
-                       <i className="fa fa-map-marker mx-2" aria-hidden="true"/>
-                       <span className={styles.location}>تهران,تهران_خیابان ملاصدرا - روبروی بیمارستان بقیه الله - شماره 207 - ساختمان سحر - طبقه دوم - واحد 7</span>
-                   </div>
-                   <div className={'row p-3'}>
-                       <div className={'col text-center'}>
-                           <Link to={'/show'} >
-                               <button className={'btn btn-primary w-100'}>
-                                   نوبت دهی اینترنتی
-                               </button>
-                           </Link>
-                       </div>
-                       <div className={'col text-center'}>
-                           <button className={'btn btn-outline-light w-100 text-dark border-dark'}> نوبت دهی تلفنی</button>
-                       </div>
-                   </div>
-               </div>
+           {
+               loading ? (<Spinner />) : (  <div>
+                   {
+                       jobs.length > 0 ? (
+                           jobs.map((j)=>(
+                               <ShowJob
+                                   key={j.id}
+                                   job={j}
+                               />
+                           ))
+                       ) : (
+                           <p>هیچ اطلاعاتی برای نمایش وجود ندارد</p>
+                       )
+                   }
+               </div> )
+           }
 
-           </div>
+
        </>
     );
 };

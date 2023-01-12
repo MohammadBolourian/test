@@ -1,6 +1,4 @@
 import * as React from 'react';
-import styles from './Content.module.scss';
-import {Link} from "react-router-dom";
 import {JobUser} from "../Components/JobUser";
 
 export const Content = () => {

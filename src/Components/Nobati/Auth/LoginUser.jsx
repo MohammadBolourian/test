@@ -7,32 +7,39 @@ import {Footer} from "../Footer/Footer";
 import {ErrorMessage, Field, Form, Formik} from "formik";
 
 import { loginSchema } from "../../Validation/LoginValidation";
-import {Link , useNavigate} from "react-router-dom";
+import {Link, useNavigate   } from "react-router-dom";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {Helmet} from "react-helmet-async";
 import Spinner from "../../Spinner";
 
-import {useContext, useState} from "react";
+import {useContext, useEffect} from "react";
 import {AuthContext} from "../../../context/authContext";
-
-import {Test} from "./test";
-
-
 
 
 export const LoginUser = () => {
+
+
+
     const navigate = useNavigate();
     const {loading,setLoading } = useContext(AuthContext);
-    const [show , setShow] = useState(false);
-    const [mob , setMob] = useState("");
+    const {sms,setSms } = useContext(AuthContext);
 
+
+    useEffect( ()=>{
+
+        const script = document.createElement("script");
+        script.src = "/js/mdb.min.js";
+        script.async = true;
+        document.body.appendChild(script);
+
+    })
 
     return (
         <div>
             <Helmet>
                 <title>ثبت نام در نوبتی 24</title>
-                <script src="/js/mdb.min.js" type="text/javascript" />
+                {/*<script src="/js/mdb.min.js" type="text/javascript" />*/}
             </Helmet>
             <Header/>
             <div className={'p-3 border-top'}>
@@ -49,41 +56,37 @@ export const LoginUser = () => {
                                 }}
                                 validationSchema={loginSchema}
                                 onSubmit={async (values) => {
-                                    console.log(values.mobile);
                                     setLoading(true);
-
                                     try {
                                         await axios.get('/sanctum/csrf-cookie').then(response => {
                                             axios.post("/api/register", values).then(res => {
                                                 if (res.data.status === 200) {
-                                                    console.log(res);
                                                     localStorage.setItem('auth_token', res.data.token);
-                                                    localStorage.setItem('auth_name', res.data.name);
+                                                    localStorage.setItem('auth_name', res.data.username);
                                                     localStorage.setItem('auth_mobile', res.data.mobile);
                                                     setLoading(false);
+                                                    setSms(true);
                                                     toast.success("کاربر با موفقیت ثبت نام شد");
-                                                    navigate('/');
-
+                                                    navigate('/test' ,{state:{ mob:values.mobile}});
                                                 } else if (res.data.status === 220) {
                                                     setLoading(false);
                                                     toast.warning(res.data.message);
+
                                                 } else {
                                                     setLoading(false);
                                                     toast.error("خطایی پیش آمده بعدا تلاش کنید", {icon: "💣"});
-
                                                 }
                                             });
                                         });
                                     } catch (e) {
                                         toast.error('در ارتباط با سرور مشکلی پیش اومده!');
                                         setLoading(false);
-                                        setMob(values.mobile);
-                                        setShow(true);
+                                        navigate('/');
+
                                     }
                                 }}
                             >
                                 {
-
                                     loading ? <Spinner/> : (
                                 <Form>
                                     <section className="vh-100" >
@@ -110,9 +113,7 @@ export const LoginUser = () => {
                                                                                 <label className="form-label"
                                                                                        htmlFor="form3Example1c">نام و نام
                                                                                     خانوادگی</label>
-
                                                                             </div>
-
                                                                         </div>
                                                                         <ErrorMessage
                                                                             name="name"
@@ -149,7 +150,6 @@ export const LoginUser = () => {
                                                                                     className="form-control"
                                                                                 />
                                                                                 <label className="form-label" htmlFor="form3Example1c">کلمه عبور</label>
-
                                                                             </div>
 
                                                                         </div>
@@ -199,7 +199,6 @@ export const LoginUser = () => {
                                                                     <img
                                                                         src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp"
                                                                         className="img-fluid" alt="Sample image"/>
-
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -216,9 +215,6 @@ export const LoginUser = () => {
                         </div>
                     </div>
 
-            {
-                show ? <Test mob={mob}/> : null
-            }
 
             <Footer/>
 

@@ -1,66 +1,173 @@
-
 import * as React from 'react';
-import Button from 'react-bootstrap/Button';
-import Modal from 'react-bootstrap/Modal';
-import VerificationInput from "react-verification-input";
-import {useEffect, useState} from "react";
 
-export const Test = ({mob}) => {
+import {useContext, useState} from "react";
+import { useLocation, useNavigate} from "react-router-dom";
+import "./test.Module.css"
+import {AuthContext} from "../../../context/authContext";
+import {NotFound} from "../../index";
+import {ErrorMessage, Field, Form, Formik} from "formik";
+import axios from "axios";
+import {toast} from "react-toastify";
+import {verificationCodeSchema} from "../../Validation/verificationCodeValidation";
+import Spinner from "../../Spinner";
 
-    const [show , setShow] = useState(true);
-    const [code , setCode] = useState()
+export const Test = () => {
+
+    const {sms, setSms} = useContext(AuthContext);
+    const {loading, setLoading} = useContext(AuthContext);
+    // const [code, SetCode] = useState();
+    const navigate = useNavigate();
 
     // const handleClose = () => setShow(false);
     //  const handleShow = () => setShow(true);
+    const location = useLocation();
 
-    function PrintMyState(state){
-        console.log(state)
-    }
-    useEffect( ()=>{ PrintMyState(code) } , [code] )
 
-    function s (text){
-        setCode(text)
+
+
+    // useEffect(() => {
+    //     if (!code) {
+    //             navigate("/")
+    //     }
+    // }, []);
+    let auth_mobile = localStorage.getItem('auth_mobile');
+    let mobileValue ={
+        "mobile":auth_mobile
+    }
+    const resendCode = (e) =>{
+        e.preventDefault();
+        console.log(mobileValue)
+        axios.get('/sanctum/csrf-cookie').then(response => {
+            axios.post("/api/reSendVerificationCode",mobileValue).then(res => {
+                console.log('code send')
+                if (res.data.status === 200) {
+                    toast.success(res.data.message);
+                    console.log('code send 1')
+                }
+                else if (res.data.status === 220) {
+                    toast.warning(res.data.message);
+                    console.log('code send 2')
+                }
+                else {
+                    console.log("logout error");
+                }
+            });
+        })
     }
 
-  function sent(e){
-      e.preventDefault();
-      console.log(code)
-    }
     return (
-            <>
-                {/*<Button variant="primary" onClick={handleShow}>*/}
-                {/*    Launch static backdrop modal*/}
-                {/*</Button>*/}
-                <Modal
-                    show={show}
-                    // onHide={handleClose}
-                    backdrop="static"
-                    keyboard={false}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>
-                           کد تایید هویت
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                       کد تایید ارسال شده به شماره خود را در کادر زیر وارد کنید در صورتی که هنوز کدی دریافت نکرده اید درخواست مجدد کد تایید را بزنید
 
-                          {/*<input type={'text'} placeholder={'کد تایید را وارد کنید'} className={'form-control w-75 mx-auto my-3 text-center'} maxLength="6"/>*/}
-                    <div className={'m-auto'}>
-                        <form>
-                        <VerificationInput
-                            name="code"
-                            placeholder="_"
-                            length={6}
-                            validChars="0-9"
-                            inputProps={{type: "tel"}}
-                            value={code}
-                            onChange={e => setCode(e.target.value)}
-                            // inputField={{
-                            //
-                            //     onChange: (e) => {setCode(e.nativeEvent.target.value)}
-                            // }}
-                        />
+        <>
+            {
+                sms ? (
+                    <Formik
+                        initialValues={{
+                            verificationCode: "",
+                        }}
+                        validationSchema={verificationCodeSchema}
+                        onSubmit={async (values) => {
+                            console.log(values);
+                            setLoading(true);
+                            try {
+                                await axios.get('/sanctum/csrf-cookie').then(response => {
+                                    axios.post("/api/registerVerify", values).then(res => {
+                                        console.log(values);
+                                        if (res.data.status === 200) {
+                                            setLoading(false);
+                                            toast.success("کاربر تایید شد");
+                                            navigate('/');
+                                        } else if (res.data.status === 403) {
+                                            setLoading(false);
+                                            toast.warning(res.data.message);
+                                        } else {
+                                            setLoading(false);
+                                            toast.error("خطایی پیش آمده بعدا تلاش کنید", {icon: "💣"});
+                                        }
+                                    });
+                                });
+                            } catch (e) {
+                                toast.error('در ارتباط با سرور مشکلی پیش اومده!');
+                                setLoading(false);
+                                navigate('/');
+
+                            }
+                        }}
+                    >
+                        {
+                            loading ? <Spinner/> : (
+                                <Form>
+                                    <div id="auth_box">
+                                        <div className="auth_box_title">
+                                            <span>تایید شماره تلفن همراه</span>
+                                        </div>
+
+                                        <div className="alert alert-success">
+                                            <span>برای شماره موبایل {location.state.mob} کد تایید ارسال شد</span>
+                                        </div>
+                                        <div>
+                                                <div className="form-group">
+                                                    <div className="field_name">کد تایید را وارد نمایید</div>
+                                                    <div className="number_input_div">
+                                                        <Field
+                                                            name="verificationCode"
+                                                            type="text"
+                                                            className="number_input number"
+                                                            maxLength="6"
+                                                        />
+                                                        {/*<input*/}
+                                                        {/*    className='number_input number'*/}
+                                                        {/*    type='text'*/}
+                                                        {/*    maxLength="6"*/}
+                                                        {/*    name='username'*/}
+                                                        {/*    value={code}*/}
+                                                        {/*    onChange={e => SetCode(e.target.value)}*/}
+                                                        {/*/>*/}
+                                                    </div>
+                                                    <div className="line_box">
+                                                        <div className="line"/>
+                                                        <div className="line"/>
+                                                        <div className="line"/>
+                                                        <div className="line"/>
+                                                        <div className="line"/>
+                                                        <div className="line"/>
+                                                    </div>
+                                                    <ErrorMessage
+                                                        name="verificationCode"
+                                                        render={(msg) => (
+                                                            <div className="text-danger">{msg}</div>
+                                                        )}
+                                                    />
+                                                    <p id="resend_active_code">
+                                                        <input
+                                                            className='number_input number d-none'
+                                                            type='text'
+                                                            maxLength="6"
+                                                            name='mobile'
+                                                            value={auth_mobile}
+                                                        />
+                                                        <button type="button" onClick={resendCode}> <span>ارسال مجدد کد</span></button>
+
+                                                    </p>
+
+                                                    <div className="text-center mx-auto" id="active_account_btn">
+                                                        <input
+                                                            type="submit"
+                                                            className="title send_btn confirm mx-auto"
+                                                            value="تایید و ارسال"
+                                                        />
+                                                        {/*<span className="title" onClick={sent}>تایید و ارسال</span>*/}
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </Form>
+                            )}
+                            </Formik>
+                    ) :
+                            <NotFound/>
+                        }
+
+
                         {/*    <input*/}
                         {/*        className='form-input'*/}
                         {/*        type='text'*/}
@@ -69,17 +176,9 @@ export const Test = ({mob}) => {
                         {/*        value={code}*/}
                         {/*        onChange={e => setCode(e.target.value)}*/}
                         {/*    />*/}
-                        </form>
-                    </div>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="success" onClick={sent}>
-                            ثبت
-                        </Button>
-                        <Button variant="primary">درخواست مجدد کد تایید</Button>
-                    </Modal.Footer>
-                </Modal>
-            </>
 
-        );
-};
+
+                    </>
+
+                );
+            };

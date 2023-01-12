@@ -1,12 +1,21 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 import Logo from "../Components/Logo";
 import {Login} from "../Auth/Login";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
+
+import {useContext} from "react";
+import {AuthContext} from "../../../context/authContext";
+
 
 const Header =()=> {
+
+
+
+    const {category } = useContext(AuthContext);
+
+
     return (
         <Navbar expand="lg">
             <Container className={'justify-content-md-center'}>
@@ -22,12 +31,13 @@ const Header =()=> {
                     >
                        <Nav.Link>
                         <NavLink to="/category">Home</NavLink>
-
                        </Nav.Link>
+                        {
+                            category.length > 0 ? (
+                                category.map((j)=>(<Link  key={j.id} to={`/cat/${j.id}`}>{j.name}</Link>)
+                            )) : null
+                        }
                         <Nav.Link href="#action2">Link</Nav.Link>
-                        <NavDropdown className={'top-0'} title="Link" >
-                            <NavDropdown.Item style={{left :'0'}} href="#action3" className={'text-center'}>Action</NavDropdown.Item>
-                        </NavDropdown>
                     </Nav>
                  <Login/>
                 </Navbar.Collapse>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {Link} from "react-router-dom";
 
-const EmployeeNobat = () => {
+const EmployeeNobat = ({job}) => {
     return (
         <div>
             <h5><b>دریافت نوبت اینترنتی</b></h5>
@@ -18,10 +18,10 @@ const EmployeeNobat = () => {
             <div className={'bg-white p-4 rounded-2'}>
                 <div className={'bg-light rounded-2 p-2'}>
                     <span>
-                        <b>محل کار جویی تربیانی</b>
+                        <b>محل کار {job.name}</b>
                         <span className={'float-start text-danger'}> گزارش تلفن و آدرس صحیح</span>
                     </span>
-                    <p className={'mt-2'}>تبریز - درمانگاه تخصصی بیمارستاد اسدابادی</p>
+                    <p className={'mt-2'}>{job.address}</p>
                     <div className={'text-center'}>
                         <button className={'btn btn-outline-primary w-50'}>
                             <i className="fa fa-phone ms-2" aria-hidden="true"/>مشاهده شماره تلفن</button>
