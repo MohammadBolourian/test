@@ -58,6 +58,7 @@ export const LoginAll = () => {
                                     localStorage.setItem('auth_token', res.data.token);
                                     localStorage.setItem('auth_name', res.data.username);
                                     localStorage.setItem('auth_mobile', values.mobile);
+                                    localStorage.setItem('auth_type', res.data.type);
                                     setLoading(false);
                                     toast.success("خوش آمدید");
                                     navigate('/');
@@ -65,6 +66,7 @@ export const LoginAll = () => {
                                     localStorage.setItem('auth_token', res.data.token);
                                     localStorage.setItem('auth_name', res.data.username);
                                     localStorage.setItem('auth_mobile', values.mobile);
+                                    localStorage.setItem('auth_type', res.data.type);
                                     setLoading(false);
                                     toast.warning(res.data.message);
                                     setSms(true);

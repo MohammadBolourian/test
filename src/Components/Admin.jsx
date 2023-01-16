@@ -21,6 +21,8 @@ import {AuthContext} from "../context/authContext";
 import {LoginAll} from "./Nobati/Auth/LoginAll";
 import axios from "axios";
 import {toast} from "react-toastify";
+import MainLayout from "../admin/layouts/MainLayout";
+import {RegisterJobs} from "./Nobati/Auth/RegisterJobs";
 
 const Admin = () => {
 
@@ -119,27 +121,29 @@ const Admin = () => {
 
             <Routes>
                 <Route path="/" element={<HomePage/>}/>
+                        <Route path="/admin" element={<MainLayout/>}/>
                 <Route path="/test" element={<Test/>}/>
                 <Route path="/register" element={localStorage.getItem('auth_token') ? <Navigate to="/" /> : <LoginUser/> }/>
                 <Route path="/login" element={localStorage.getItem('auth_token') ? <Navigate to="/" /> : <LoginAll/> } />
                 <Route path="/category" element={<Categories/>}/>
                 <Route path="/show/:jobId" element={<EmployeeShow/>}/>
                 <Route path="/booking" element={<Booking/>}/>
-                <Route path="/user" element={<Info/>} >
+                <Route path="/user"   element={localStorage.getItem('auth_type') === '2' ? <Navigate to="/job" /> : <Info/> } >
                     <Route index element={<EditNewUser />} />
                     <Route path="editUser" element={<EditNewUser />} />
                     <Route path="my-reserve" element={<MyReserve />} />
                     <Route path="my-list" element={<MyList />} />
                     <Route path="my-users" element={<MyUsers />} />
                 </Route>
+                <Route path="/register-job" element={<RegisterJobs/>}/>
                 <Route path="/job" element={<Jobs/>}>
                     <Route index  element={<EditNewJob/>} />
                     <Route path="edit-job" element={<EditNewJob/>} />
                     <Route path="employee-job" element={<EmployeeJob/>} />
                     <Route path="add-employee" element={<AddEmployee/>} />
                     <Route path="reserve-times" element={<ReserveTimes/>} />
-
                 </Route>
+
                 <Route path={'*'} element={<NotFound/>}/>
             </Routes>
         </AuthContext.Provider>

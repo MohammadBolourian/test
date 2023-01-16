@@ -1,94 +1,65 @@
 
 import * as React from 'react';
-import Header from "../Header/Header";
-import {Search} from "../Components/Search";
 import {MAIN} from "../../../helpers/colors";
-import {Footer} from "../Footer/Footer";
 import {ErrorMessage, Field, Form, Formik} from "formik";
-
-import { loginSchema } from "../../Validation/LoginValidation";
-import {Link, useNavigate   } from "react-router-dom";
+import {loginSchema} from "../../Validation/LoginValidation";
 import axios from "axios";
 import {toast} from "react-toastify";
-import {Helmet} from "react-helmet-async";
 import Spinner from "../../Spinner";
-
-import {useContext, useEffect} from "react";
+import {Link, useNavigate} from "react-router-dom";
+import {useContext} from "react";
 import {AuthContext} from "../../../context/authContext";
+import {registerJobSchema} from "../../Validation/RegisterJobs";
 
-
-export const LoginUser = () => {
-
-
-
-    const navigate = useNavigate();
+export const RegisterJobs = () => {
     const {loading,setLoading } = useContext(AuthContext);
     const {sms,setSms } = useContext(AuthContext);
-
-
-    useEffect( ()=>{
-
-        const script = document.createElement("script");
-        script.src = "/js/mdb.min.js";
-        script.async = true;
-        document.body.appendChild(script);
-
-    })
-
+    const navigate = useNavigate();
     return (
         <div>
-            <Helmet>
-                <title>ثبت نام در نوبتی 24</title>
-                {/*<script src="/js/mdb.min.js" type="text/javascript" />*/}
-            </Helmet>
-            <Header/>
-            <div className={'p-3 border-top'}>
-                <Search/>
-            </div>
+            <div style={{background:MAIN}} className={'row mx-0 col-12 p-5'}>
+                <div className={'col-12'}>
+                    <Formik
+                        initialValues={{
+                            name: "",
+                            mobile: "",
+                            password: "",
+                        }}
+                        validationSchema={registerJobSchema}
+                        onSubmit={async (values) => {
+                            setLoading(true);
+                            try {
+                                await axios.get('/sanctum/csrf-cookie').then(response => {
+                                    axios.post("/api/registerAdminJob", values).then(res => {
+                                        if (res.data.status === 200) {
+                                            setLoading(false);
+                                            setSms(true);
+                                            toast.success("کاربر با موفقیت ثبت نام شد");
+                                            localStorage.setItem('auth_token', res.data.token);
+                                            localStorage.setItem('auth_name', res.data.username);
+                                            localStorage.setItem('auth_mobile', values.mobile);
+                                            localStorage.setItem('auth_type', 2);
+                                            navigate('/test' ,{state:{ mob:values.mobile}});
+                                        } else if (res.data.status === 220) {
+                                            setLoading(false);
+                                            toast.warning(res.data.message);
 
-                    <div style={{background:MAIN}} className={'row mx-0 col-12 p-5'}>
-                        <div className={'col-12'}>
-                            <Formik
-                                initialValues={{
-                                    name: "",
-                                    mobile: "",
-                                    password: "",
-                                }}
-                                validationSchema={loginSchema}
-                                onSubmit={async (values) => {
-                                    setLoading(true);
-                                    try {
-                                        await axios.get('/sanctum/csrf-cookie').then(response => {
-                                            axios.post("/api/register", values).then(res => {
-                                                if (res.data.status === 200) {
-                                                    localStorage.setItem('auth_token', res.data.token);
-                                                    localStorage.setItem('auth_name', res.data.username);
-                                                    localStorage.setItem('auth_mobile', res.data.mobile);
-                                                    localStorage.setItem('auth_type', 1);
-                                                    setLoading(false);
-                                                    setSms(true);
-                                                    toast.success("کاربر با موفقیت ثبت نام شد");
-                                                    navigate('/test' ,{state:{ mob:values.mobile}});
-                                                } else if (res.data.status === 220) {
-                                                    setLoading(false);
-                                                    toast.warning(res.data.message);
+                                        } else {
+                                            setLoading(false);
+                                            toast.error("خطایی پیش آمده بعدا تلاش کنید", {icon: "💣"});
+                                        }
+                                    });
+                                });
+                            } catch (e) {
+                                toast.error('در ارتباط با سرور مشکلی پیش اومده!');
+                                setLoading(false);
+                                navigate('/');
 
-                                                } else {
-                                                    setLoading(false);
-                                                    toast.error("خطایی پیش آمده بعدا تلاش کنید", {icon: "💣"});
-                                                }
-                                            });
-                                        });
-                                    } catch (e) {
-                                        toast.error('در ارتباط با سرور مشکلی پیش اومده!');
-                                        setLoading(false);
-                                        navigate('/');
-
-                                    }
-                                }}
-                            >
-                                {
-                                    loading ? <Spinner/> : (
+                            }
+                        }}
+                    >
+                        {
+                            loading ? <Spinner/> : (
                                 <Form>
                                     <section className="vh-100" >
                                         <div className="container h-100">
@@ -210,15 +181,11 @@ export const LoginUser = () => {
                                     </section>
 
                                 </Form>
-                                    )
-                                }
-                            </Formik>
-                        </div>
-                    </div>
-
-
-            <Footer/>
-
+                            )
+                        }
+                    </Formik>
+                </div>
+            </div>
         </div>
     );
 };

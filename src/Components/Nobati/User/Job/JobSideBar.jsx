@@ -5,13 +5,15 @@ export const JobSideBar = () => {
     let activeStyle = {
         color: "cornflowerblue",
     };
+    const name = localStorage.getItem('auth_name');
+    const mobile = localStorage.getItem('auth_mobile');
     return (
         <div className={'bg-white p-3 rounded-3'} style={{width:'max-content'}}>
             <div className={'d-flex'}>
                 <img className={styles.img} src={require('./../../../../assets/images.jpg')} alt={'profile'}/>
               <div className={'p-1 me-3'}>
-                  <p>نام برند و کسب و کار</p>
-                  <p>0912345xxx</p>
+                  <p>{name}</p>
+                  <p>{mobile}</p>
               </div>
             </div>
             <hr/>

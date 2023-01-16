@@ -17,6 +17,7 @@ export const Login = () => {
                     localStorage.removeItem('auth_token');
                     localStorage.removeItem('auth_name');
                     localStorage.removeItem('auth_mobile');
+                    localStorage.removeItem('auth_type');
                     navigate("/");
                 } else {
                     console.log("logout error");
