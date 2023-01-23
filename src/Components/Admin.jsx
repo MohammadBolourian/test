@@ -141,7 +141,8 @@ const Admin = () => {
                     <Route path="edit-job" element={<EditNewJob/>} />
                     <Route path="employee-job" element={<EmployeeJob/>} />
                     <Route path="add-employee" element={<AddEmployee/>} />
-                    <Route path="reserve-times" element={<ReserveTimes/>} />
+                    <Route path="reserve-times/:employeeId" element={<ReserveTimes/>} />
+
                 </Route>
 
                 <Route path={'*'} element={<NotFound/>}/>
