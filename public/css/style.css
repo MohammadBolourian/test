@@ -9,10 +9,52 @@
   font-style: normal;
   font-display: swap;
 }
+@font-face {
+  font-family: "Yekan";
+  src: url("../fonts/yekan.eot");
+  src: url("../fonts/yekan.eot?#iefix") format("embedded-opentype"),
+  url("../fonts/yekan.woff2") format("woff2"),
+  url("../fonts/yekan.woff") format("woff"),
+  url("../fonts/yekan.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 /*a{*/
 /*  color: grey !important;*/
 /*}*/
+.MuiButtonBase-root{
+  font-family: "Yekan" !important;
 
+}
+.MuiPickersCalendarHeader-root{
+  direction: ltr !important;
+}
+.css-raiqh1-MuiTypography-root-MuiDayPicker-weekDayLabel{
+  font-family: "Yekan" !important;
+  width: 76px !important;
+  font-size: 1.75rem !important;
+}
+.css-bkrceb-MuiButtonBase-root-MuiPickersDay-root{
+  width: 75px !important;
+  height: 65px!important;
+}
+.css-195y93z-MuiButtonBase-root-MuiPickersDay-root
+{
+  width: 75px !important;
+  height: 65px!important;
+}
+
+.css-169iwlq-MuiCalendarPicker-root{
+  width: 500px !important;
+}
+.css-ggw2de-MuiPickersDay-root{
+  width: 75px !important;
+  height: 65px!important;
+}
+.css-epd502{
+  width: auto !important;
+}
 .dropdown-menu{
   left: auto !important;
 }

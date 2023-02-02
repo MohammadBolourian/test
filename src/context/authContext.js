@@ -10,6 +10,4 @@ export const AuthContext = createContext({
     logoutUser:() => {},
     verificationCode:() => {},
     setJobs:()=>{},
-
-
 })

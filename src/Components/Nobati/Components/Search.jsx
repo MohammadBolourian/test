@@ -39,14 +39,14 @@ export const Search = () => {
                     type="text"
                     value={value} onChange={onChange}
                     className="form-control "
-                    placeholder="search"
+                    placeholder="تخصص مورد نیاز خود را جستجو کنید"
 
                 />
                 <button className="btn btn-outline-primary" type="button" id="button-addon2"
                         data-mdb-ripple-color="dark"
                         onClick={() => onSearch(value)}
                 >
-                    Button
+                    جستجو
                 </button>
             </div>
             <div className="dropdown">

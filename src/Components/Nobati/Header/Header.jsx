@@ -10,12 +10,7 @@ import {AuthContext} from "../../../context/authContext";
 
 
 const Header =()=> {
-
-
-
     const {category } = useContext(AuthContext);
-
-
     return (
         <Navbar expand="lg">
             <Container className={'justify-content-md-center'}>

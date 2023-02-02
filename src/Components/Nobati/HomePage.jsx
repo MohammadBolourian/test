@@ -8,6 +8,7 @@ import {Footer} from "./Footer/Footer";
 import { useCallback } from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
+import ResponsiveAppBar from "../MUI/ResponsiveAppBar";
 
 
 const HomePage = () => {
@@ -31,7 +32,7 @@ const HomePage = () => {
                 options={{
                     background: {
                         color: {
-                            value: "#ea7d7d",
+                            value: "rgb(203,198,198)",
                         },
                     },
                     fpsLimit: 120,
@@ -59,7 +60,7 @@ const HomePage = () => {
                     },
                     particles: {
                         color: {
-                            value: "#e52323",
+                            value: "#c7cfdc",
                         },
                         links: {
                             color: "#ffffff",
@@ -101,12 +102,11 @@ const HomePage = () => {
                     detectRetina: true,
                 }}
             />
-            <Header/>
+            {/*<Header/>*/}
+            <ResponsiveAppBar/>
             <main className={'text-center'} style={{marginBottom: "100px"}}>
                 <div>
-                    <img src={logo} alt={'logo'}/>
                     <Search/>
-
                     <div className={'mt-5 d-flex justify-content-center'}>
                         <h5>آخرین جستجوهای شما</h5>
                         <p className={'bazdid'}>
