@@ -16,6 +16,7 @@ import {useContext} from "react";
 import {AuthContext} from "../../context/authContext";
 import {Link} from "react-router-dom";
 import {Login} from "../Nobati/Auth/Login";
+import {background} from "./theme"
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -42,10 +43,13 @@ function ResponsiveAppBar() {
 
 
     return (
-        <AppBar position="static">
+        <AppBar position="static"
+            sx={{backgroundColor:'background.main'}}
+        >
             <Container maxWidth="lg">
                 <Toolbar disableGutters>
                     <Typography
+                        color="primary"
                         variant="h6"
                         noWrap
                         component="a"

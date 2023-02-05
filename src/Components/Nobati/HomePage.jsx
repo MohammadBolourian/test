@@ -13,7 +13,7 @@ import ResponsiveAppBar from "../MUI/ResponsiveAppBar";
 
 const HomePage = () => {
     const particlesInit = useCallback(async engine => {
-        console.log(engine);
+          console.log(engine);
         // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
         // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
         // starting from v2 you can add only the features you need reducing the bundle size
@@ -25,16 +25,17 @@ const HomePage = () => {
     }, []);
     return (
         <div>
+
             <Particles
                 id="tsparticles"
                 init={particlesInit}
                 loaded={particlesLoaded}
                 options={{
-                    background: {
-                        color: {
-                            value: "rgb(203,198,198)",
-                        },
-                    },
+                    // background: {
+                    //     color: {
+                    //         value: "rgb(203,198,198)",
+                    //     },
+                    // },
                     fpsLimit: 120,
                     interactivity: {
                         events: {
@@ -63,7 +64,7 @@ const HomePage = () => {
                             value: "#c7cfdc",
                         },
                         links: {
-                            color: "#ffffff",
+                            color: "#afc6ef",
                             distance: 150,
                             enable: true,
                             opacity: 0.5,
@@ -81,6 +82,18 @@ const HomePage = () => {
                             random: false,
                             speed: 2,
                             straight: false,
+                        },
+                        interactivity: {
+                            detectsOn: "window",
+                            events: {
+                                onHover: {
+                                    enable: false
+                                },
+                                onClick: {
+                                    enable: false
+                                },
+                                resize: true
+                            }
                         },
                         number: {
                             density: {
@@ -105,17 +118,8 @@ const HomePage = () => {
             {/*<Header/>*/}
             <ResponsiveAppBar/>
             <main className={'text-center'} style={{marginBottom: "100px"}}>
-                <div>
+                <div style={{marginTop:'25vh'}}>
                     <Search/>
-                    <div className={'mt-5 d-flex justify-content-center'}>
-                        <h5>آخرین جستجوهای شما</h5>
-                        <p className={'bazdid'}>
-                           <span> آرایشگاه</span>
-                        </p>
-                        <p className={'bazdid'}>
-                            <span> سالن قصر </span>
-                        </p>
-                    </div>
                 </div>
             </main>
             <Footer/>

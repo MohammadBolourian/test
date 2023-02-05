@@ -11,6 +11,8 @@ import {AuthContext} from "../../../context/authContext";
 import axios from "axios";
 import {toast} from "react-toastify";
 import {Spinner} from "../../index";
+import ResponsiveAppBar from "../../MUI/ResponsiveAppBar";
+import {Box, Divider} from "@mui/material";
 
 const EmployeeShow = () => {
     const {jobId} = useParams();
@@ -45,11 +47,8 @@ const EmployeeShow = () => {
 
 
     return (
-        <div>
-            <Header/>
-            <div className={'p-3 border-top'}>
-                <Search/>
-            </div>
+        <>
+            <ResponsiveAppBar/>
             <div style={{background: MAIN}} className={'row mx-0 col-12 p-5'}>
 
                 {
@@ -66,7 +65,7 @@ const EmployeeShow = () => {
                 }
             </div>
             <Footer/>
-        </div>
+        </>
     );
 };
 export default EmployeeShow;

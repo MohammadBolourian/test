@@ -4,7 +4,7 @@ input:focus{
 body{
     direction: rtl;
     text-align:right;
-    background:#efefef;
+    /*background:#efefef;*/
     color:#515151;
     font-size:14px;
 }

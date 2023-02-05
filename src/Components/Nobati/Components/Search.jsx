@@ -3,6 +3,8 @@ import './search.scss'
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
 
 export const Search = () => {
     const [value, setValue] = useState("");
@@ -33,21 +35,34 @@ export const Search = () => {
         console.log("search ", searchTerm);
     };
     return (
-        <div className={'text-center px-5 w-100'}>
-            <div className="input-group mb-3 w-50 mx-auto">
-                <input
-                    type="text"
-                    value={value} onChange={onChange}
-                    className="form-control "
-                    placeholder="تخصص مورد نیاز خود را جستجو کنید"
+        <div className={'text-center px-5 w-100'} >
+            <div className="input-group mb-3  mx-auto">
+                {/*<input*/}
+                {/*    type="text"*/}
+                {/*    value={value} onChange={onChange}*/}
+                {/*    className="form-control "*/}
+                {/*    placeholder="تخصص مورد نیاز خود را جستجو کنید"*/}
 
-                />
-                <button className="btn btn-outline-primary" type="button" id="button-addon2"
-                        data-mdb-ripple-color="dark"
-                        onClick={() => onSearch(value)}
+                {/*/>*/}
+                <Box
+                    sx={{ margin:'auto',
+                        width: 500,
+                        maxWidth: '100%',
+                        display:'flex',
+                    }}
                 >
-                    جستجو
-                </button>
+                    <TextField fullWidth label="تخصص مورد نیاز خود را جستجو کنید" id="fullWidth"
+                               value={value} onChange={onChange}
+                    />
+
+                    <button className="btn btn-outline-primary" type="button" id="button-addon2"
+                            data-mdb-ripple-color="dark"
+                            onClick={() => onSearch(value)}
+                    >
+                        جستجو
+                    </button>
+                </Box>
+
             </div>
             <div className="dropdown">
                 {data

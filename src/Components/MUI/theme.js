@@ -6,13 +6,22 @@ export const theme = createTheme({
   palette: {
     mode: "light",
     primary: {
-      main: "#2196F3",
+      main: "#0c70bf",
     },
     secondary: {
-      main: "#03A9F4",
+      main: "#1381b3",
+    },
+    background:{
+      main:"rgb(203,198,198)"
+    },
+    icon:{
+      main:"#8664ef",
+    },
+    dropItem:{
+      main:'#f1f5f9'
     },
   },
   typography:{
-    fontFamily:"Vazir,Yekan,tahoma,roboto",
+    fontFamily:"Vazir,Yekan,tahoma,roboto !important",
   }
 });

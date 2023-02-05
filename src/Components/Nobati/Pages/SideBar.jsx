@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './../HomePage.scss'
+import {FormControlLabel, FormGroup, Switch} from "@mui/material";
 
 export const SideBar = () => {
     return (
@@ -7,7 +8,7 @@ export const SideBar = () => {
             <div className={'m-2 bg-white rounded-2'}>
                 <div className={'d-flex justify-content-between p-3 '}>
                     <span>
-                        <h5>فیلتر های انتخاب شده</h5>
+                        <h6>فیلتر های انتخاب شده</h6>
                     </span>
                     <button className={'btn btn-outline-danger'}>حذف</button>
                 </div>
@@ -68,25 +69,14 @@ export const SideBar = () => {
             <div className={'m-2 bg-white rounded-2 p-3'}>
                 <h6>فیلترهای جستجو</h6>
                 <div className={'filter-search'}>
-
-                    <div className="form-check form-switch">
-                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"/>
-                            <label className="form-check-label" htmlFor="flexSwitchCheckDefault"> <span>پزشک خوش برخورد</span></label>
-                    </div>
+                    <FormGroup>
+                        <FormControlLabel control={<Switch defaultChecked />} label="پزشک خوش برخورد" />
+                    </FormGroup>
                 </div>
                 <div className={'filter-search'}>
-
-                    <div className="form-check form-switch">
-                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"/>
-                            <label className="form-check-label" htmlFor="flexSwitchCheckDefault"> <span>پزشک خوش برخورد</span></label>
-                    </div>
-                </div>
-                <div className={'filter-search'}>
-
-                    <div className="form-check form-switch">
-                        <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault"/>
-                            <label className="form-check-label" htmlFor="flexSwitchCheckDefault"> <span>پزشک خوش برخورد</span></label>
-                    </div>
+                    <FormGroup>
+                        <FormControlLabel control={<Switch defaultChecked />} label="پزشک خوش برخورد" />
+                    </FormGroup>
                 </div>
             </div>
         </div>

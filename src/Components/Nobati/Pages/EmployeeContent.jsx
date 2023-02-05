@@ -7,7 +7,7 @@ export const EmployeeContent = ({job}) => {
             <div className={'p-3 bg-white'}>
                 <div className={'mx-3'}>
                     <span className={styles.icon}>
-                        <i className="fa fa-bookmark-o mx-1" aria-hidden="true"/>
+                        <i className="fa fa-bookmark mx-1" aria-hidden="true"/>
                         ذخیره
                     </span>
                     <span className={styles.icon}>

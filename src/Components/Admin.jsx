@@ -23,6 +23,7 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import MainLayout from "../admin/layouts/MainLayout";
 import {RegisterJobs} from "./Nobati/Auth/RegisterJobs";
+import {Logout} from "./Nobati/Auth/Logout";
 
 const Admin = () => {
 
@@ -81,11 +82,15 @@ const Admin = () => {
         }
         fetchData();
     }
+    const [loggedIn, setLoggedIn] = useState(null);
 
     // category
     useEffect(()=>{
         getCategory();
         getState();
+        const loggedUser = localStorage.getItem('auth_token');
+        setLoggedIn(Boolean(loggedUser));
+        console.log(loggedIn);
     },[])
 
     // scroll infite
@@ -123,8 +128,9 @@ const Admin = () => {
                 <Route path="/" element={<HomePage/>}/>
                         <Route path="/admin" element={<MainLayout/>}/>
                 <Route path="/test" element={<Test/>}/>
-                <Route path="/register" element={localStorage.getItem('auth_token') ? <Navigate to="/" /> : <LoginUser/> }/>
-                <Route path="/login" element={localStorage.getItem('auth_token') ? <Navigate to="/" /> : <LoginAll/> } />
+                <Route path="/logout" element={<Logout/>}/>
+                <Route path="/register" element={loggedIn == null ? <Navigate to="/" /> : <LoginUser/> }/>
+                <Route path="/login" element={loggedIn == null ? <Navigate to="/" /> : <LoginAll/> } />
                 <Route path="/category" element={<Categories/>}/>
                 <Route path="/show/:jobId" element={<EmployeeShow/>}/>
                 <Route path="/booking" element={<Booking/>}/>

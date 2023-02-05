@@ -1,17 +1,31 @@
-
 import * as React from 'react';
 import {Link, useNavigate} from "react-router-dom";
-import axios from "axios";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
-import {Avatar, Tooltip, Typography} from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import {Menu} from "@mui/icons-material";
-import MenuItem from "@mui/material/MenuItem";
+
+import Typography from '@mui/material/Typography';
+import Menu from '@mui/material/Menu';
+
+import Avatar from '@mui/material/Avatar';
+import Tooltip from '@mui/material/Tooltip';
+import MenuItem from '@mui/material/MenuItem';
+import axios from "axios";
 
 
+const settings = [
+    {
+        "id": 1,
+        "name": 'صفحه شخصی',
+        "link": '/user'
+    },
+    {
+        "id": 2,
+        "name": 'خروج از حساب کاربری',
+        "link": '/logout'
+    },
+];
 
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 export const Login = () => {
 
@@ -28,70 +42,53 @@ export const Login = () => {
     };
 
     const name = localStorage.getItem('auth_name');
-    const navigate =useNavigate();
 
-    const logout = (e) =>{
-        e.preventDefault();
-        axios.get('/sanctum/csrf-cookie').then(response => {
-            axios.post("/api/logout").then(res => {
-                if (res.data.status === 200) {
-                    localStorage.removeItem('auth_token');
-                    localStorage.removeItem('auth_name');
-                    localStorage.removeItem('auth_mobile');
-                    localStorage.removeItem('auth_type');
-                    navigate("/");
-                } else {
-                    console.log("logout error");
-                }
-            });
-        })
-    }
+
     let AuthButton = '';
-    if(!localStorage.getItem('auth_token')) {
-        AuthButton =(
+    if (!localStorage.getItem('auth_token')) {
+        AuthButton = (
             <>
-                <Link to="/login">
-                <Box sx={{ '& button': { m: 1 } }} >
-                    <Button size="medium" variant="outlined" sx={{fontWeight:'bold'}}>ورود|ثبت نام</Button>
+                <Box sx={{'& button': {m: 1}}}>
+                    <Link to="/login">
+                        <Button size="medium" variant="outlined" sx={{fontWeight: 'bold'}}>ورود|ثبت نام</Button>
+                    </Link>
                 </Box>
-                </Link>
             </>
         );
-    }else{
-        AuthButton =(
+    } else {
+        AuthButton = (
             <>
-                <Box sx={{ flexGrow: 0 }}>
+                <Box sx={{flexGrow: 0}}>
                     <Tooltip title="پروفایل کاربری">
-                        <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                            <Avatar alt={name}/>
+                        <IconButton onClick={handleOpenUserMenu} sx={{p: 0}}>
+                            <Avatar/>
                         </IconButton>
                     </Tooltip>
                     <Menu
-                        sx={{ mt: '45px' }}
+                        sx={{mt: '45px'}}
                         id="menu-appbar"
                         anchorEl={anchorElUser}
                         anchorOrigin={{
                             vertical: 'top',
-                            horizontal: 'right',
+                            horizontal: 'center',
                         }}
                         keepMounted
                         transformOrigin={{
                             vertical: 'top',
-                            horizontal: 'right',
+                            horizontal: 'center',
                         }}
                         open={Boolean(anchorElUser)}
                         onClose={handleCloseUserMenu}
                     >
                         {settings.map((setting) => (
-                            <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                                <Typography textAlign="center" sx={{fontFamily:'Vazir'}}>{setting}</Typography>
+                            <MenuItem key={setting.id} onClick={handleCloseUserMenu}>
+                                <Link to={setting.link}>
+                                    <Typography textAlign="center">{setting.name}</Typography>
+                                </Link>
                             </MenuItem>
                         ))}
                     </Menu>
                 </Box>
-                {/*<p>سلام {name}</p>*/}
-                {/*<button type="button" onClick={logout}>logout</button>*/}
-                {/*<Link to="/user">پروفایل</Link>*/}
             </>
         );
     }
