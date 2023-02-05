@@ -17,6 +17,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import {DateTimePicker} from "@mui/x-date-pickers/DateTimePicker";
 import {DesktopDateTimePicker, MobileDateTimePicker, StaticDatePicker} from "@mui/x-date-pickers";
 import {makeStyles} from '@mui/styles';
+import ResponsiveAppBar from "../../MUI/ResponsiveAppBar";
 
 const useStyles = makeStyles({
     root: {
@@ -87,14 +88,8 @@ const useStyles = makeStyles({
 
     return (
         <div>
-            <Header/>
-            <div className={'p-3 border-top'}>
-                <Search/>
-            </div>
+            <ResponsiveAppBar/>
             <Stack spacing={5}>
-
-
-
             <LocalizationProvider   dateAdapter={AdapterJalali} >
                 <StaticDatePicker
                     displayStaticWrapperAs="desktop"

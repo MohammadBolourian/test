@@ -1,5 +1,7 @@
 import * as React from 'react';
 import styles from "./Content.module.scss";
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
 
 export const EmployeeContent = ({job}) => {
     return (
@@ -50,13 +52,24 @@ export const EmployeeContent = ({job}) => {
             <div className={'p-3 bg-white'}>
                 <div className={'row'}>
                     <div className={' mx-auto p-2 rounded-2 row'} style={{width: '95%'}}>
-                        <div className={'col'} style={{maxWidth: 'fit-content'}}>
-                            <img className={styles.gallery} src={require('./../../../assets/images.jpg')}
-                                 alt={'profile'}/>
-                            <img className={styles.gallery} src={require('./../../../assets/images.jpg')}
-                                 alt={'profile'}/>
-                            <img className={styles.gallery} src={require('./../../../assets/images.jpg')}
-                                 alt={'profile'}/>
+                        <div className={'col d-flex'} style={{maxWidth: 'fit-content' , overflow:'auto'}}>
+                            <Zoom>
+                                <img className={styles.gallery} src={require('./../../../assets/images.jpg')}
+                                     alt={'profile'}/>
+                            </Zoom>
+                            <Zoom>
+                                <img className={styles.gallery} src={require('./../../../assets/images.jpg')}
+                                     alt={'profile'}/>
+                            </Zoom>
+                            <Zoom>
+                                <img className={styles.gallery} src={require('./../../../assets/images.jpg')}
+                                     alt={'profile'}/>
+                            </Zoom>
+                            <Zoom>
+                                <img className={styles.gallery} src={require('./../../../assets/images.jpg')}
+                                     alt={'profile'}/>
+                            </Zoom>
+
                         </div>
                     </div>
                 </div>
